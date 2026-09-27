@@ -452,7 +452,7 @@ async function submitBooking(event){
   try {
 
     const response = await fetch(
-      "http://mehndi-core.onrender.com/api/bookings",
+      "https://mehndi-core.onrender.com/api/bookings",
       {
         method: "POST",
 
