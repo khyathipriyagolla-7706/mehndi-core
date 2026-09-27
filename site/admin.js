@@ -11,7 +11,7 @@ loginForm.addEventListener("submit", async (event) => {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/admin/login",
+            "http://mehndi-core.onrender.com/api/admin/login",
             {
                 method: "POST",
                 headers: {

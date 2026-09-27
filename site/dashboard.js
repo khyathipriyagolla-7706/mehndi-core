@@ -24,7 +24,7 @@ async function loadBookings() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/admin/bookings",
+            "http://mehndi-core.onrender.com/api/admin/bookings",
             {
                 method: "GET",
                 headers: {
@@ -194,7 +194,7 @@ async function updateBookingStatus(
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/admin/bookings/${bookingId}/status`,
+            `http://mehndi-core.onrender.com/api/admin/bookings/${bookingId}/status`,
             {
                 method: "PATCH",
 
