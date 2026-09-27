@@ -172,9 +172,9 @@ customerLoginForm.addEventListener(
 
     try{
 
-      const response =
+        const response =
         await fetch(
-          `${API_URL}/api/customer/login`,
+        API_URL + "/api/customer/login",
           {
             method:"POST",
 
@@ -350,7 +350,7 @@ adminLoginForm.addEventListener(
 
       const response =
         await fetch(
-          `${API_URL}/api/admin/login`,
+         API_URL + "/api/admin/login",
           {
             method:"POST",
 
