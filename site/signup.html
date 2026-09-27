@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Mehndi Core</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* =====================================================
+           SIGNUP PAGE
+           ===================================================== */
+
+        .auth-page {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            background:
+                radial-gradient(circle at 10% 20%,
+                    rgba(169, 137, 90, 0.12),
+                    transparent 28%),
+                radial-gradient(circle at 90% 80%,
+                    rgba(59, 74, 49, 0.12),
+                    transparent 30%),
+                var(--cream, #F7F1E3);
+        }
+
+        .signup-card {
+            width: min(100%, 1050px);
+            min-height: 620px;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(59, 74, 49, 0.12);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(59, 74, 49, 0.14);
+            backdrop-filter: blur(12px);
+        }
+
+        /* =====================================================
+           LEFT ART PANEL
+           ===================================================== */
+
+        .signup-art {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 55px;
+            background: #3B4A31;
+            color: #F7F1E3;
+            overflow: hidden;
+        }
+
+        .signup-art::before,
+        .signup-art::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(247, 241, 227, 0.15);
+            border-radius: 50%;
+        }
+
+        .signup-art::before {
+            width: 330px;
+            height: 330px;
+            top: -140px;
+            right: -120px;
+        }
+
+        .signup-art::after {
+            width: 260px;
+            height: 260px;
+            bottom: -120px;
+            left: -100px;
+        }
+
+        .signup-symbol {
+            width: 82px;
+            height: 82px;
+            border: 1px solid rgba(247, 241, 227, 0.45);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 42px;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-art .section-label {
+            color: #D7C49B;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-art h2 {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(40px, 5vw, 64px);
+            line-height: 0.95;
+            font-weight: 500;
+            margin: 15px 0 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-art p {
+            max-width: 380px;
+            color: rgba(247, 241, 227, 0.76);
+            line-height: 1.8;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-note {
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(247, 241, 227, 0.15);
+            color: rgba(247, 241, 227, 0.65);
+            font-size: 13px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =====================================================
+           RIGHT CONTENT
+           ===================================================== */
+
+        .signup-content {
+            padding: 55px 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .signup-header {
+            margin-bottom: 30px;
+        }
+
+        .signup-header .section-label {
+            color: #A9895A;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .signup-header h1 {
+            font-family: "Cormorant Garamond", serif;
+            color: #3B4A31;
+            font-size: clamp(38px, 4vw, 52px);
+            font-weight: 500;
+            margin: 8px 0 8px;
+        }
+
+        .signup-header p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           FORM
+           ===================================================== */
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .signup-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .signup-field label {
+            color: #3B4A31;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .signup-field input {
+            width: 100%;
+            padding: 15px 17px;
+            border: 1px solid rgba(59, 74, 49, 0.18);
+            border-radius: 12px;
+            background: #fff;
+            color: #333;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .signup-field input:focus {
+            border-color: #A9895A;
+            box-shadow: 0 0 0 3px rgba(169, 137, 90, 0.10);
+        }
+
+        .signup-field small {
+            color: #888;
+            font-size: 11px;
+        }
+
+        .signup-button {
+            width: 100%;
+            margin-top: 8px;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #3B4A31;
+            color: #F7F1E3;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .signup-button:hover {
+            background: #2f3c27;
+            transform: translateY(-1px);
+        }
+
+        .signup-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =====================================================
+           MESSAGES
+           ===================================================== */
+
+        .signup-error,
+        .signup-success {
+            display: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .signup-error.show {
+            display: block;
+            background: #f8e7e5;
+            color: #9b3d34;
+            border: 1px solid #ecc8c4;
+        }
+
+        .signup-success.show {
+            display: block;
+            background: #e8eee3;
+            color: #3B4A31;
+            border: 1px solid #ccd8c5;
+        }
+
+        /* =====================================================
+           LOGIN LINK
+           ===================================================== */
+
+        .login-prompt {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .login-prompt a {
+            color: #3B4A31;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-prompt a:hover {
+            color: #A9895A;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .signup-card {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .signup-art {
+                padding: 40px 30px;
+                min-height: 300px;
+            }
+
+            .signup-art h2 {
+                font-size: 46px;
+            }
+
+            .signup-note {
+                margin-top: 25px;
+            }
+
+            .signup-content {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .auth-page {
+                padding: 25px 14px;
+            }
+
+            .signup-card {
+                border-radius: 24px;
+            }
+
+            .signup-art {
+                padding: 35px 25px;
+            }
+
+            .signup-content {
+                padding: 35px 25px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="site-header">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="logo">
+                Mehndi Core
+            </a>
+
+            <nav class="main-nav">
+
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+
+            </nav>
+
+            <div class="nav-actions">
+
+                <a href="login.html" class="nav-login">
+                    Login
+                </a>
+
+                <a href="booking.html" class="nav-cta">
+                    Book Now
+                </a>
+
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         SIGNUP
+         ===================================================== -->
+
+    <main class="auth-page">
+
+        <div class="signup-card">
+
+
+            <!-- LEFT PANEL -->
+
+            <section class="signup-art">
+
+                <div class="signup-symbol">
+                    ✦
+                </div>
+
+                <span class="section-label">
+                    MEHNDI CORE
+                </span>
+
+                <h2>
+                    Begin your<br>
+                    mehndi journey.
+                </h2>
+
+                <p>
+                    Create your customer account and keep
+                    all your mehndi bookings in one beautiful
+                    little place.
+                </p>
+
+                <div class="signup-note">
+                    Your account lets you view your bookings
+                    and track their status anytime.
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT PANEL -->
+
+            <section class="signup-content">
+
+                <div class="signup-header">
+
+                    <span class="section-label">
+                        CUSTOMER ACCOUNT
+                    </span>
+
+                    <h1>
+                        Create Account
+                    </h1>
+
+                    <p>
+                        Sign up to manage your Mehndi Core bookings.
+                    </p>
+
+                </div>
+
+
+                <!-- SIGNUP FORM -->
+
+                <form
+                    id="customerSignupForm"
+                    class="signup-form"
+                >
+
+                    <div class="signup-field">
+
+                        <label for="signupName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="signupName"
+                            name="name"
+                            placeholder="Enter your full name"
+                            maxlength="80"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="signup-field">
+
+                        <label for="signupPhone">
+                            Mobile Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="signupPhone"
+                            name="phone"
+                            placeholder="10-digit mobile number"
+                            inputmode="numeric"
+                            maxlength="10"
+                            required
+                        >
+
+                        <small>
+                            Use the same number when you log in.
+                        </small>
+
+                    </div>
+
+
+                    <div class="signup-field">
+
+                        <label for="signupPassword">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="signupPassword"
+                            name="password"
+                            placeholder="Create a password"
+                            minlength="6"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="signup-field">
+
+                        <label for="signupConfirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="signupConfirmPassword"
+                            name="confirmPassword"
+                            placeholder="Enter your password again"
+                            minlength="6"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div
+                        id="signupError"
+                        class="signup-error"
+                        role="alert"
+                    ></div>
+
+
+                    <div
+                        id="signupSuccess"
+                        class="signup-success"
+                        role="status"
+                    ></div>
+
+
+                    <button
+                        type="submit"
+                        id="signupButton"
+                        class="signup-button"
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+
+                <div class="login-prompt">
+
+                    Already have an account?
+                    <a href="login.html">
+                        Login here
+                    </a>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="site-footer">
+
+        <p>
+            © 2026 Mehndi Core. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+    <script src="signup.js"></script>
+
+</body>
+
+</html>

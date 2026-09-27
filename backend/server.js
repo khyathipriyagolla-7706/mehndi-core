@@ -2,8 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const Booking = require("./models/Booking");
 const Admin = require("./models/Admin");
+const Customer = require("./models/Customer");
 
 require("dotenv").config();
 
@@ -50,76 +52,83 @@ app.get("/api/health", (req, res) => {
 });
 
 // Booking API
-app.post("/api/bookings", async (req, res) => {
-    try {
-        const {
-            name,
-            phone,
-            service,
-            date,
-            address,
-            notes
-        } = req.body;
+app.post(
+    "/api/bookings",
+    attachCustomerIfLoggedIn,
+    async (req, res) => {
+        try {
+            const {
+                name,
+                phone,
+                service,
+                date,
+                address,
+                notes
+            } = req.body;
 
-        // Required field validation
-        if (
-            !name ||
-            !phone ||
-            !service ||
-            !date ||
-            !address
-        ) {
-            return res.status(400).json({
-                success: false,
+            // Required field validation
+            if (
+                !name ||
+                !phone ||
+                !service ||
+                !date ||
+                !address
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Please provide all required booking details."
+                });
+            }
+
+            // Phone validation
+            if (!/^[0-9]{10}$/.test(phone)) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Please provide a valid 10-digit phone number."
+                });
+            }
+
+            // Save booking to MongoDB
+            const booking = await Booking.create({
+                customerId: req.customer
+                    ? req.customer.customerId
+                    : undefined,
+                name,
+                phone,
+                service,
+                date,
+                address,
+                notes: notes || "",
+                status: "Pending"
+            });
+
+            console.log(
+                "Booking saved to MongoDB:",
+                booking._id
+            );
+
+            res.status(201).json({
+                success: true,
                 message:
-                    "Please provide all required booking details."
+                    "Booking request received successfully!",
+                booking: booking
+            });
+
+        } catch (error) {
+            console.error(
+                "Booking save error:",
+                error.message
+            );
+
+            res.status(500).json({
+                success: false,
+                message: "Failed to save booking."
             });
         }
-
-        // Phone validation
-        if (!/^[0-9]{10}$/.test(phone)) {
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Please provide a valid 10-digit phone number."
-            });
-        }
-
-        // Save booking to MongoDB
-        const booking = await Booking.create({
-            name,
-            phone,
-            service,
-            date,
-            address,
-            notes: notes || "",
-            status: "Pending"
-        });
-
-        console.log(
-            "Booking saved to MongoDB:",
-            booking._id
-        );
-
-        res.status(201).json({
-            success: true,
-            message:
-                "Booking request received successfully!",
-            booking: booking
-        });
-
-    } catch (error) {
-        console.error(
-            "Booking save error:",
-            error.message
-        );
-
-        res.status(500).json({
-            success: false,
-            message: "Failed to save booking."
-        });
     }
-});
+);
 
 // Admin Login
 app.post("/api/admin/login", async (req, res) => {
@@ -148,8 +157,6 @@ app.post("/api/admin/login", async (req, res) => {
                     "Invalid username or password."
             });
         }
-
-        const bcrypt = require("bcryptjs");
 
         const passwordMatch =
             await bcrypt.compare(
@@ -195,7 +202,260 @@ app.post("/api/admin/login", async (req, res) => {
     }
 });
 
-// Authentication Middleware
+// Customer Signup
+app.post("/api/customer/signup", async (req, res) => {
+    try {
+        const {
+            name,
+            phone,
+            password
+        } = req.body;
+
+        if (!name || !phone || !password) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Name, phone, and password are required."
+            });
+        }
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Please provide a valid 10-digit phone number."
+            });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Password must be at least 6 characters."
+            });
+        }
+
+        const existingCustomer =
+            await Customer.findOne({
+                phone
+            });
+
+        if (existingCustomer) {
+            return res.status(409).json({
+                success: false,
+                message:
+                    "A customer with this phone number already exists."
+            });
+        }
+
+        const hashedPassword =
+            await bcrypt.hash(
+                password,
+                10
+            );
+
+        const customer =
+            await Customer.create({
+                name,
+                phone,
+                password: hashedPassword
+            });
+
+        res.status(201).json({
+            success: true,
+            message:
+                "Customer account created successfully.",
+            customer: {
+                id: customer._id,
+                name: customer.name,
+                phone: customer.phone
+            }
+        });
+
+    } catch (error) {
+        console.error(
+            "Customer signup error:",
+            error.message
+        );
+
+        res.status(500).json({
+            success: false,
+            message:
+                "Customer signup failed."
+        });
+    }
+});
+
+// Customer Login
+app.post("/api/customer/login", async (req, res) => {
+    try {
+        const {
+            phone,
+            password
+        } = req.body;
+
+        if (!phone || !password) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Phone and password are required."
+            });
+        }
+
+        const customer =
+            await Customer.findOne({
+                phone
+            });
+
+        if (!customer) {
+            return res.status(401).json({
+                success: false,
+                message:
+                    "Invalid phone number or password."
+            });
+        }
+
+        const passwordMatch =
+            await bcrypt.compare(
+                password,
+                customer.password
+            );
+
+        if (!passwordMatch) {
+            return res.status(401).json({
+                success: false,
+                message:
+                    "Invalid phone number or password."
+            });
+        }
+
+        const token = jwt.sign(
+            {
+                customerId: customer._id,
+                phone: customer.phone,
+                role: "customer"
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1h"
+            }
+        );
+
+        res.json({
+            success: true,
+            message:
+                "Customer login successful.",
+            token: token,
+            customer: {
+                id: customer._id,
+                name: customer.name,
+                phone: customer.phone
+            }
+        });
+
+    } catch (error) {
+        console.error(
+            "Customer login error:",
+            error.message
+        );
+
+        res.status(500).json({
+            success: false,
+            message:
+                "Customer login failed."
+        });
+    }
+});
+
+// Customer Authentication Middleware
+function authenticateCustomer(
+    req,
+    res,
+    next
+) {
+    const authHeader =
+        req.headers.authorization;
+
+    if (
+        !authHeader ||
+        !authHeader.startsWith("Bearer ")
+    ) {
+        return res.status(401).json({
+            success: false,
+            message:
+                "Access denied. Customer login required."
+        });
+    }
+
+    const token =
+        authHeader.split(" ")[1];
+
+    try {
+        const decoded =
+            jwt.verify(
+                token,
+                process.env.JWT_SECRET
+            );
+
+        if (decoded.role !== "customer") {
+            return res.status(403).json({
+                success: false,
+                message:
+                    "Customer access required."
+            });
+        }
+
+        req.customer = decoded;
+
+        next();
+
+    } catch (error) {
+        return res.status(401).json({
+            success: false,
+            message:
+                "Invalid or expired customer token."
+        });
+    }
+}
+
+// Optional Customer Authentication
+function attachCustomerIfLoggedIn(
+    req,
+    res,
+    next
+) {
+    const authHeader =
+        req.headers.authorization;
+
+    if (
+        !authHeader ||
+        !authHeader.startsWith("Bearer ")
+    ) {
+        return next();
+    }
+
+    const token =
+        authHeader.split(" ")[1];
+
+    try {
+        const decoded =
+            jwt.verify(
+                token,
+                process.env.JWT_SECRET
+            );
+
+        if (decoded.role === "customer") {
+            req.customer = decoded;
+        }
+
+        next();
+
+    } catch (error) {
+        next();
+    }
+}
+
+// Admin Authentication Middleware
 function authenticateAdmin(
     req,
     res,
@@ -336,6 +596,41 @@ app.patch(
                 success: false,
                 message:
                     "Failed to update booking status."
+            });
+        }
+    }
+);
+
+// Customer - Get My Bookings
+app.get(
+    "/api/customer/bookings",
+    authenticateCustomer,
+    async (req, res) => {
+        try {
+            const bookings =
+                await Booking.find({
+                    customerId:
+                        req.customer.customerId
+                }).sort({
+                    createdAt: -1
+                });
+
+            res.json({
+                success: true,
+                count: bookings.length,
+                bookings: bookings
+            });
+
+        } catch (error) {
+            console.error(
+                "Fetch customer bookings error:",
+                error.message
+            );
+
+            res.status(500).json({
+                success: false,
+                message:
+                    "Failed to fetch your bookings."
             });
         }
     }

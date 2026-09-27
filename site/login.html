@@ -1,0 +1,1041 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="description"
+  content="Login to Mehndi Core to manage your mehndi bookings."
+>
+
+<meta name="theme-color" content="#3B4A31">
+
+<title>Login | Mehndi Core</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="styles.css">
+
+<style>
+
+/* =====================================================
+   LOGIN PAGE
+   ===================================================== */
+
+.auth-page{
+  min-height:calc(100vh - 73px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:70px 24px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(169,137,90,0.10),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(59,74,49,0.08),
+      transparent 32%
+    ),
+    var(--cream);
+}
+
+
+/* Decorative background circles */
+
+.auth-page::before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  border:1px solid rgba(169,137,90,0.22);
+  border-radius:50%;
+  left:-210px;
+  top:-180px;
+}
+
+.auth-page::after{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  border:1px solid rgba(59,74,49,0.12);
+  border-radius:50%;
+  right:-260px;
+  bottom:-260px;
+}
+
+
+/* =====================================================
+   AUTH CARD
+   ===================================================== */
+
+.auth-card{
+  width:100%;
+  max-width:960px;
+  min-height:570px;
+
+  display:grid;
+  grid-template-columns:0.9fr 1.1fr;
+
+  background:rgba(252,250,243,0.94);
+
+  border:1px solid var(--line);
+  border-radius:28px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 24px 70px rgba(43,39,31,0.10);
+
+  position:relative;
+  z-index:2;
+}
+
+
+/* =====================================================
+   LEFT BRAND PANEL
+   ===================================================== */
+
+.auth-art{
+  background:var(--green);
+  color:var(--cream);
+
+  padding:55px 48px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  position:relative;
+  overflow:hidden;
+}
+
+
+/* decorative rings */
+
+.auth-art::before{
+  content:"";
+  position:absolute;
+
+  width:330px;
+  height:330px;
+
+  border:1px solid rgba(247,241,227,0.16);
+  border-radius:50%;
+
+  top:-125px;
+  left:-120px;
+}
+
+.auth-art::after{
+  content:"";
+  position:absolute;
+
+  width:260px;
+  height:260px;
+
+  border:1px solid rgba(169,137,90,0.35);
+  border-radius:50%;
+
+  bottom:-100px;
+  right:-90px;
+}
+
+
+/* Mehndi-style decorative symbol */
+
+.mehndi-symbol{
+  width:100px;
+  height:100px;
+
+  border:1px solid rgba(247,241,227,0.32);
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-bottom:32px;
+
+  position:relative;
+}
+
+
+.mehndi-symbol::before,
+.mehndi-symbol::after{
+  content:"◇";
+
+  position:absolute;
+
+  color:var(--gold);
+
+  font-size:16px;
+}
+
+
+.mehndi-symbol::before{
+  top:-10px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+
+.mehndi-symbol::after{
+  bottom:-10px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+
+.mehndi-symbol span{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3rem;
+  color:var(--cream);
+}
+
+
+.auth-art .section-label{
+  color:#D8C79F;
+  margin-bottom:14px;
+}
+
+
+.auth-art h2{
+  color:var(--cream);
+  font-size:clamp(2.5rem,4vw,3.5rem);
+  max-width:8ch;
+  margin-bottom:20px;
+}
+
+
+.auth-art p{
+  color:rgba(247,241,227,0.76);
+  max-width:340px;
+  font-size:0.94rem;
+  line-height:1.8;
+}
+
+
+/* =====================================================
+   RIGHT LOGIN AREA
+   ===================================================== */
+
+.auth-content{
+  padding:55px 60px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+
+.auth-header{
+  margin-bottom:28px;
+}
+
+
+.auth-header .section-label{
+  margin-bottom:8px;
+}
+
+
+.auth-header h1{
+  font-size:clamp(2rem,3vw,2.8rem);
+  margin-bottom:10px;
+}
+
+
+.auth-header p:not(.section-label){
+  color:var(--ink-soft);
+  font-size:0.9rem;
+}
+
+
+/* =====================================================
+   TABS
+   ===================================================== */
+
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  background:var(--sage);
+
+  padding:5px;
+  border-radius:14px;
+
+  margin-bottom:28px;
+}
+
+
+.auth-tab{
+  background:transparent;
+  color:var(--ink-soft);
+
+  padding:11px 15px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+  font-size:0.88rem;
+  font-weight:500;
+
+  transition:
+    background .2s ease,
+    color .2s ease,
+    box-shadow .2s ease;
+}
+
+
+.auth-tab.active{
+  background:var(--cream);
+  color:var(--green);
+
+  box-shadow:
+    0 3px 12px rgba(43,39,31,0.08);
+
+  font-weight:600;
+}
+
+
+/* =====================================================
+   FORMS
+   ===================================================== */
+
+.form-group{
+  margin-bottom:18px;
+}
+
+
+.form-group label{
+  display:block;
+
+  margin-bottom:7px;
+
+  font-size:0.82rem;
+  font-weight:500;
+
+  color:var(--ink);
+}
+
+
+.form-group input{
+  width:100%;
+
+  padding:13px 15px;
+
+  border:1px solid var(--line);
+  border-radius:12px;
+
+  background:#fffdf8;
+
+  color:var(--ink);
+
+  outline:none;
+
+  font-size:0.9rem;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+
+.form-group input::placeholder{
+  color:#A39A89;
+}
+
+
+.form-group input:focus{
+  border-color:var(--gold);
+
+  background:#fff;
+
+  box-shadow:
+    0 0 0 3px rgba(169,137,90,0.10);
+}
+
+
+.auth-submit{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  margin-top:8px;
+
+  padding:13px 20px;
+}
+
+
+/* =====================================================
+   ERROR
+   ===================================================== */
+
+.auth-error{
+  display:none;
+
+  margin:5px 0 12px;
+
+  padding:10px 12px;
+
+  border-radius:10px;
+
+  background:#F8E8E5;
+  color:var(--danger);
+
+  font-size:0.8rem;
+}
+
+
+.auth-error.show{
+  display:block;
+}
+
+
+/* =====================================================
+   SIGNUP FOOTER
+   ===================================================== */
+
+.auth-footer{
+  text-align:center;
+
+  margin-top:24px;
+
+  padding-top:20px;
+
+  border-top:1px solid var(--line);
+}
+
+
+.auth-footer p{
+  color:var(--ink-soft);
+  font-size:0.82rem;
+}
+
+
+.auth-footer a{
+  color:var(--green);
+
+  font-weight:600;
+
+  text-decoration:none;
+}
+
+
+.auth-footer a:hover{
+  text-decoration:underline;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:800px){
+
+  .auth-card{
+    grid-template-columns:1fr;
+    max-width:540px;
+  }
+
+
+  .auth-art{
+    padding:36px 30px;
+    min-height:250px;
+  }
+
+
+  .auth-art h2{
+    max-width:none;
+    font-size:2.4rem;
+  }
+
+
+  .auth-art p{
+    max-width:500px;
+  }
+
+
+  .mehndi-symbol{
+    width:70px;
+    height:70px;
+    margin-bottom:20px;
+  }
+
+
+  .mehndi-symbol span{
+    font-size:2.2rem;
+  }
+
+
+  .auth-content{
+    padding:38px 30px;
+  }
+
+}
+
+
+@media(max-width:520px){
+
+  .auth-page{
+    padding:35px 15px;
+  }
+
+
+  .auth-card{
+    border-radius:20px;
+  }
+
+
+  .auth-art{
+    padding:30px 24px;
+  }
+
+
+  .auth-content{
+    padding:32px 22px;
+  }
+
+
+  .auth-header h1{
+    font-size:2rem;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header>
+
+  <div class="nav">
+
+    <a
+      href="index.html"
+      class="brand"
+      aria-label="Mehndi Core Home"
+    >
+
+      <svg
+        class="brand-mark"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true"
+      >
+
+        <path
+          d="M20 8C20 8 20 16 14 19C9 21.3 5 19 5 19C5 19 8 26 14 27C17 27.5 20 26 20 26C20 26 23 27.5 26 27C32 26 35 19 35 19C35 19 31 21.3 26 19C20 16 20 8 20 8Z"
+          stroke="#3B4A31"
+          stroke-width="1.5"
+        />
+
+        <circle
+          cx="20"
+          cy="26"
+          r="2.4"
+          fill="#A9895A"
+        />
+
+      </svg>
+
+
+      <div class="brand-text">
+
+        <div class="brand-name">
+          Mehndi Core
+        </div>
+
+        <div class="brand-sub">
+          HOME SERVICES
+        </div>
+
+      </div>
+
+    </a>
+
+
+    <nav
+      class="links"
+      aria-label="Main navigation"
+    >
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="services.html">
+        Services
+      </a>
+
+      <a href="gallery.html">
+        Gallery
+      </a>
+
+      <a href="about.html">
+        About
+      </a>
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+    </nav>
+
+
+    <div class="nav-actions">
+
+      <a
+        href="login.html"
+        class="nav-login active"
+      >
+        Login
+      </a>
+
+      <a
+        href="booking.html"
+        class="nav-cta"
+      >
+        Book Now
+      </a>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="menu-toggle"
+      id="menuToggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+  </div>
+
+
+  <div
+    class="mobile-menu"
+    id="mobileMenu"
+  >
+
+    <a href="index.html">
+      Home
+    </a>
+
+    <a href="services.html">
+      Services
+    </a>
+
+    <a href="gallery.html">
+      Gallery
+    </a>
+
+    <a href="about.html">
+      About
+    </a>
+
+    <a href="contact.html">
+      Contact
+    </a>
+
+    <a
+      href="login.html"
+      class="active"
+    >
+      Login
+    </a>
+
+    <a href="booking.html">
+      Book Now
+    </a>
+
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     LOGIN
+     ===================================================== -->
+
+<main class="auth-page">
+
+
+  <div class="auth-card">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="auth-art">
+
+      <div class="mehndi-symbol">
+        <span>✦</span>
+      </div>
+
+      <p class="section-label">
+        MEHNDI CORE
+      </p>
+
+      <h2>
+        Your mehndi journey starts here.
+      </h2>
+
+      <p>
+        Sign in to manage your bookings, check appointment
+        status, and keep your Mehndi Core experience simple.
+      </p>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="auth-content">
+
+
+      <div class="auth-header">
+
+        <p class="section-label">
+          Welcome back
+        </p>
+
+        <h1>
+          Login
+        </h1>
+
+        <p>
+          Choose your account type to continue.
+        </p>
+
+      </div>
+
+
+      <!-- ACCOUNT TABS -->
+
+      <div class="auth-tabs">
+
+        <button
+          type="button"
+          class="auth-tab active"
+          id="customerTab"
+        >
+          Customer
+        </button>
+
+        <button
+          type="button"
+          class="auth-tab"
+          id="adminTab"
+        >
+          Admin
+        </button>
+
+      </div>
+
+
+      <!-- =================================================
+           CUSTOMER LOGIN
+           ================================================= -->
+
+      <section
+        class="auth-section"
+        id="customerLoginSection"
+      >
+
+        <form id="customerLoginForm">
+
+
+          <div class="form-group">
+
+            <label for="customerPhone">
+              Phone Number
+            </label>
+
+            <input
+              type="tel"
+              id="customerPhone"
+              name="phone"
+              placeholder="Enter your 10-digit mobile number"
+              inputmode="numeric"
+              maxlength="10"
+              autocomplete="tel"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="customerPassword">
+              Password
+            </label>
+
+            <input
+              type="password"
+              id="customerPassword"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+
+          </div>
+
+
+          <p
+            class="auth-error"
+            id="customerLoginError"
+            role="alert"
+          ></p>
+
+
+          <button
+            type="submit"
+            class="btn-primary auth-submit"
+            id="customerLoginButton"
+          >
+            Login as Customer
+          </button>
+
+
+        </form>
+
+
+        <div class="auth-footer">
+
+          <p>
+            Don't have an account?
+            <a href="signup.html">
+              Create one
+            </a>
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           ADMIN LOGIN
+           ================================================= -->
+
+      <section
+        class="auth-section"
+        id="adminLoginSection"
+        hidden
+      >
+
+        <form id="adminLoginForm">
+
+
+          <div class="form-group">
+
+            <label for="adminUsername">
+              Username
+            </label>
+
+            <input
+              type="text"
+              id="adminUsername"
+              name="username"
+              placeholder="Enter admin username"
+              autocomplete="username"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="adminPassword">
+              Password
+            </label>
+
+            <input
+              type="password"
+              id="adminPassword"
+              name="password"
+              placeholder="Enter admin password"
+              autocomplete="current-password"
+              required
+            >
+
+          </div>
+
+
+          <p
+            class="auth-error"
+            id="adminLoginError"
+            role="alert"
+          ></p>
+
+
+          <button
+            type="submit"
+            class="btn-primary auth-submit"
+            id="adminLoginButton"
+          >
+            Login as Admin
+          </button>
+
+
+        </form>
+
+      </section>
+
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+  <div class="wrap">
+
+    <div class="footer-grid">
+
+
+      <a
+        href="index.html"
+        class="brand"
+        aria-label="Mehndi Core Home"
+      >
+
+        <svg
+          class="brand-mark"
+          viewBox="0 0 40 40"
+          fill="none"
+          aria-hidden="true"
+        >
+
+          <path
+            d="M20 8C20 8 20 16 14 19C9 21.3 5 19 5 19C5 19 8 26 14 27C17 27.5 20 26 20 26C20 26 23 27.5 26 27C32 26 35 19 35 19C35 19 31 21.3 26 19C20 16 20 8 20 8Z"
+            stroke="#3B4A31"
+            stroke-width="1.5"
+          />
+
+          <circle
+            cx="20"
+            cy="26"
+            r="2.4"
+            fill="#A9895A"
+          />
+
+        </svg>
+
+
+        <div class="brand-text">
+
+          <div class="brand-name">
+            Mehndi Core
+          </div>
+
+          <div class="brand-sub">
+            HOME SERVICES
+          </div>
+
+        </div>
+
+      </a>
+
+
+      <div class="footer-links">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="services.html">
+          Services
+        </a>
+
+        <a href="gallery.html">
+          Gallery
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="footer-contact">
+
+      <span>
+        <a href="tel:+917337055533">
+          +91 73370 55533
+        </a>
+      </span>
+
+      <span>
+        <a
+          href="https://wa.me/917337055533"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          WhatsApp
+        </a>
+      </span>
+
+      <span>
+        Eluru &amp; Nearby Areas
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+<script src="login.js"></script>
+
+</body>
+</html>
+```
