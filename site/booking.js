@@ -457,8 +457,9 @@ async function submitBooking(event){
         method: "POST",
 
         headers: {
-          "Content-Type": "application/json"
-        },
+         "Content-Type": "application/json",
+         "Authorization": "Bearer " + localStorage.getItem("customerToken")
+      },
 
         body: JSON.stringify(
           bookingData
