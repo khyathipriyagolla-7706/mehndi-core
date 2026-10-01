@@ -84,3 +84,18 @@
     if(e.key === "Escape"){ closeLightbox(); }
   });
 })();
+
+
+/* =====================================================
+   BOOKING ACCESS
+   ===================================================== */
+function goToBooking(){
+  const token = localStorage.getItem("customerToken");
+
+  if(token){
+    window.location.href = "booking.html";
+  }else{
+    localStorage.setItem("loginRedirect", "booking.html");
+    window.location.href = "login.html";
+  }
+}
