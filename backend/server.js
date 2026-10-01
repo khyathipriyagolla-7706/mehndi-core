@@ -75,7 +75,7 @@ app.get("/api/health", (req, res) => {
 
 app.post(
     "/api/bookings",
-    attachCustomerIfLoggedIn,
+    authenticateCustomer,
     async (req, res) => {
 
         try {
@@ -501,12 +501,12 @@ app.post(
 
             if (!customer) {
 
-                return res.status(401).json({
+                return res.status(404).json({
 
                     success: false,
 
                     message:
-                        "Invalid phone number or password."
+                        "No account found with this phone number. Please create an account to continue."
 
                 });
 
@@ -527,7 +527,7 @@ app.post(
                     success: false,
 
                     message:
-                        "Invalid phone number or password."
+                        "Incorrect password. Please try again."
 
                 });
 
