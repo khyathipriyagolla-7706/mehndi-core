@@ -1,4 +1,20 @@
 /* =====================================================
+   CUSTOMER LOGIN CHECK
+   ===================================================== */
+
+const customerToken = localStorage.getItem("customerToken");
+
+if (!customerToken) {
+  localStorage.setItem(
+    "loginRedirect",
+    "booking.html" + window.location.search
+  );
+
+  window.location.href = "login.html";
+}
+
+
+/* =====================================================
    CALENDAR
    ===================================================== */
 
