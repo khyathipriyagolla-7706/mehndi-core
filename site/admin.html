@@ -1,152 +1,673 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mehndi Core | Admin Login</title>
+```
+<title>Mehndi Core | Admin Login</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    /* =====================================================
+       BODY
+       ===================================================== */
+
+    body {
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 30px 18px;
+
+        font-family:
+            "Poppins",
+            Arial,
+            sans-serif;
+
+        color: #3B4A31;
+
+        background:
+            radial-gradient(
+                circle at 10% 15%,
+                rgba(169, 137, 90, 0.15),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 90% 85%,
+                rgba(59, 74, 49, 0.12),
+                transparent 30%
+            ),
+            #F7F1E3;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    /* =====================================================
+       DECORATIVE BACKGROUND
+       ===================================================== */
+
+    body::before {
+        content: "";
+
+        position: fixed;
+
+        width: 480px;
+        height: 480px;
+
+        border:
+            1px solid
+            rgba(169, 137, 90, 0.13);
+
+        border-radius: 50%;
+
+        top: -260px;
+        right: -180px;
+
+        pointer-events: none;
+    }
+
+
+    body::after {
+        content: "✦";
+
+        position: fixed;
+
+        left: 7%;
+        bottom: 7%;
+
+        font-family:
+            "Cormorant Garamond",
+            serif;
+
+        font-size: 100px;
+
+        color:
+            rgba(169, 137, 90, 0.08);
+
+        pointer-events: none;
+    }
+
+
+    /* =====================================================
+       LOGIN CARD
+       ===================================================== */
+
+    .login-container {
+
+        width: min(100%, 440px);
+
+        padding: 46px 42px 40px;
+
+        background:
+            rgba(255, 255, 255, 0.88);
+
+        border:
+            1px solid
+            rgba(59, 74, 49, 0.10);
+
+        border-radius: 28px;
+
+        box-shadow:
+            0 30px 80px
+            rgba(59, 74, 49, 0.13);
+
+        backdrop-filter: blur(12px);
+
+        position: relative;
+
+        z-index: 2;
+
+        overflow: hidden;
+    }
+
+
+    /* Gold accent line */
+
+    .login-container::before {
+
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 4px;
+
+        background:
+            linear-gradient(
+                90deg,
+                #A9895A,
+                #D7C49B,
+                #A9895A
+            );
+    }
+
+
+    /* =====================================================
+       LOGO
+       ===================================================== */
+
+    .logo {
+        text-align: center;
+
+        margin-bottom: 34px;
+    }
+
+
+    .logo-symbol {
+
+        width: 62px;
+        height: 62px;
+
+        margin: 0 auto 18px;
+
+        border:
+            1px solid
+            rgba(169, 137, 90, 0.45);
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        position: relative;
+
+        color: #A9895A;
+
+        font-family:
+            "Cormorant Garamond",
+            serif;
+
+        font-size: 30px;
+    }
+
+
+    .logo-symbol::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 46px;
+        height: 46px;
+
+        border:
+            1px solid
+            rgba(169, 137, 90, 0.22);
+
+        border-radius: 50%;
+    }
+
+
+    .logo h1 {
+
+        font-family:
+            "Cormorant Garamond",
+            Georgia,
+            serif;
+
+        font-size: 42px;
+
+        line-height: 1;
+
+        font-weight: 500;
+
+        letter-spacing: 0.3px;
+
+        color: #3B4A31;
+
+        margin-bottom: 9px;
+    }
+
+
+    .logo p {
+
+        color: #A9895A;
+
+        font-size: 10px;
+
+        letter-spacing: 2.8px;
+
+        text-transform: uppercase;
+
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       FORM
+       ===================================================== */
+
+    .form-group {
+
+        margin-bottom: 21px;
+    }
+
+
+    label {
+
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #3B4A31;
+
+        font-size: 11px;
+
+        letter-spacing: 0.8px;
+
+        font-weight: 600;
+    }
+
+
+    input {
+
+        width: 100%;
+
+        padding: 14px 16px;
+
+        border:
+            1px solid
+            #DDD8CE;
+
+        border-radius: 11px;
+
+        background:
+            rgba(247, 241, 227, 0.48);
+
+        color: #3B4A31;
+
+        font-family: inherit;
+
+        font-size: 13px;
+
+        outline: none;
+
+        transition:
+            border 0.25s ease,
+            box-shadow 0.25s ease,
+            background 0.25s ease;
+    }
+
+
+    input::placeholder {
+        color: #A7A7A7;
+    }
+
+
+    input:focus {
+
+        border-color: #A9895A;
+
+        background: #FFFFFF;
+
+        box-shadow:
+            0 0 0 4px
+            rgba(169, 137, 90, 0.10);
+    }
+
+
+    /* =====================================================
+       LOGIN BUTTON
+       ===================================================== */
+
+    button {
+
+        width: 100%;
+
+        min-height: 50px;
+
+        margin-top: 5px;
+
+        border: none;
+
+        border-radius: 12px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #3B4A31,
+                #4A5A3D
+            );
+
+        color: #F7F1E3;
+
+        font-family: inherit;
+
+        font-size: 12px;
+
+        letter-spacing: 0.8px;
+
+        font-weight: 600;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 25px
+            rgba(59, 74, 49, 0.18);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            opacity 0.25s ease;
+    }
+
+
+    button:hover {
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 15px 32px
+            rgba(59, 74, 49, 0.22);
+    }
+
+
+    button:active {
+
+        transform:
+            translateY(0);
+    }
+
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    #message {
+
+        min-height: 20px;
+
+        margin-top: 18px;
+
+        text-align: center;
+
+        font-size: 12px;
+
+        line-height: 1.5;
+
+        color: #888;
+    }
+
+
+    /* =====================================================
+       DIVIDER
+       ===================================================== */
+
+    .login-divider {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+        margin: 24px 0 20px;
+
+        color: #B3A992;
+
+        font-size: 10px;
+
+        letter-spacing: 1px;
+
+        text-transform: uppercase;
+    }
+
+
+    .login-divider::before,
+    .login-divider::after {
+
+        content: "";
+
+        height: 1px;
+
+        flex: 1;
+
+        background:
+            rgba(59, 74, 49, 0.09);
+    }
+
+
+    /* =====================================================
+       BACK LINK
+       ===================================================== */
+
+    .back-link {
+
+        display: block;
+
+        text-align: center;
+
+        color: #3B4A31;
+
+        text-decoration: none;
+
+        font-size: 11px;
+
+        font-weight: 500;
+
+        transition:
+            color 0.2s ease;
+    }
+
+
+    .back-link:hover {
+
+        color: #A9895A;
+    }
+
+
+    /* =====================================================
+       SECURITY NOTE
+       ===================================================== */
+
+    .security-note {
+
+        margin-top: 22px;
+
+        text-align: center;
+
+        color: #A5A5A5;
+
+        font-size: 9px;
+
+        letter-spacing: 0.5px;
+    }
+
+
+    .security-note span {
+
+        color: #A9895A;
+
+        margin-right: 4px;
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 500px) {
 
         body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background: #f7f1e3;
-            color: #3b4a31;
+            padding: 20px 14px;
         }
+
 
         .login-container {
-            width: 90%;
-            max-width: 420px;
-            padding: 40px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+
+            padding:
+                40px 25px 30px;
+
+            border-radius: 23px;
         }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
 
         .logo h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
+            font-size: 37px;
         }
 
-        .logo p {
-            color: #777;
-            font-size: 14px;
+
+        .logo-symbol {
+
+            width: 56px;
+            height: 56px;
+
+            font-size: 27px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+
+        .logo-symbol::before {
+
+            width: 42px;
+            height: 42px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
+    }
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-        }
+</style>
+```
 
-        input:focus {
-            border-color: #3b4a31;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #3b4a31;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        #message {
-            margin-top: 18px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .back-link {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-            color: #3b4a31;
-            text-decoration: none;
-            font-size: 14px;
-        }
-    </style>
 </head>
 
 <body>
 
-    <div class="login-container">
+```
+<!-- =====================================================
+     ADMIN LOGIN
+     ===================================================== -->
 
-        <div class="logo">
-            <h1>Mehndi Core</h1>
-            <p>Admin Dashboard Login</p>
+<main class="login-container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <div class="logo-symbol">
+            ✦
         </div>
 
-        <form id="loginForm">
+        <h1>
+            Mehndi Core
+        </h1>
 
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    placeholder="Enter admin username"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter admin password"
-                    required
-                >
-            </div>
-
-            <button type="submit">Login</button>
-
-        </form>
-
-        <div id="message"></div>
-
-        <a href="index.html" class="back-link">
-            ← Back to Website
-        </a>
+        <p>
+            Admin Dashboard
+        </p>
 
     </div>
 
-    <script src="admin.js"></script>
+
+    <!-- LOGIN FORM -->
+
+    <form id="loginForm">
+
+
+        <div class="form-group">
+
+            <label for="username">
+                ADMIN USERNAME
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter your username"
+                autocomplete="username"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="password">
+                PASSWORD
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
+
+
+        <button type="submit">
+            SIGN IN TO DASHBOARD
+        </button>
+
+
+    </form>
+
+
+    <!-- MESSAGE -->
+
+    <div id="message"></div>
+
+
+    <!-- DIVIDER -->
+
+    <div class="login-divider">
+        Mehndi Core
+    </div>
+
+
+    <!-- BACK -->
+
+    <a
+        href="index.html"
+        class="back-link"
+    >
+        ← Back to Website
+    </a>
+
+
+    <!-- SECURITY -->
+
+    <div class="security-note">
+        <span>✦</span>
+        Secure administrator access
+    </div>
+
+
+</main>
+
+
+<!-- EXISTING ADMIN JAVASCRIPT -->
+
+<script src="admin.js"></script>
+```
 
 </body>
+
 </html>

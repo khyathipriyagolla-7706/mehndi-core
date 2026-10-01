@@ -7,6 +7,7 @@ const bookingSchema = new mongoose.Schema(
             ref: "Customer",
             required: false
         },
+
         name: {
             type: String,
             required: true,
@@ -44,12 +45,16 @@ const bookingSchema = new mongoose.Schema(
 
         status: {
             type: String,
-            default: "Pending"
+            default: "Booking Received"
         }
     },
+
     {
         timestamps: true
     }
 );
 
-module.exports = mongoose.model("Booking", bookingSchema);
+module.exports = mongoose.model(
+    "Booking",
+    bookingSchema
+);

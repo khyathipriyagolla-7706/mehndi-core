@@ -5,6 +5,7 @@
 const API_URL = "https://mehndi-core.onrender.com";
 
 const customerToken = localStorage.getItem("customerToken");
+
 const customerData = JSON.parse(
     localStorage.getItem("customer") || "null"
 );
@@ -33,10 +34,13 @@ const logoutButton =
    ===================================================== */
 
 if (!customerToken) {
+
     window.location.href = "login.html";
+
 } else {
 
     if (customerData && customerData.name) {
+
         welcomeElement.textContent =
             `Welcome, ${customerData.name}.`;
     }
@@ -52,7 +56,9 @@ if (!customerToken) {
 logoutButton.addEventListener("click", () => {
 
     localStorage.removeItem("customerToken");
+
     localStorage.removeItem("customer");
+
     localStorage.removeItem("loginRedirect");
 
     window.location.href = "login.html";
@@ -71,6 +77,7 @@ async function loadBookings() {
             `${API_URL}/api/customer/bookings`,
             {
                 method: "GET",
+
                 headers: {
                     Authorization:
                         `Bearer ${customerToken}`
@@ -78,7 +85,10 @@ async function loadBookings() {
             }
         );
 
-        const result = await response.json();
+
+        const result =
+            await response.json();
+
 
         if (!response.ok) {
 
@@ -101,13 +111,17 @@ async function loadBookings() {
                 return;
             }
 
+
             throw new Error(
                 result.message ||
                 "Failed to load bookings."
             );
         }
 
-        renderBookings(result.bookings || []);
+
+        renderBookings(
+            result.bookings || []
+        );
 
     } catch (error) {
 
@@ -116,17 +130,21 @@ async function loadBookings() {
             error
         );
 
+
         showError(
             error.message ||
             "Unable to load your bookings."
         );
+
 
         bookingCount.textContent = "0";
 
     } finally {
 
         if (loadingMessage) {
-            loadingMessage.style.display = "none";
+
+            loadingMessage.style.display =
+                "none";
         }
     }
 }
@@ -154,6 +172,7 @@ function renderBookings(bookings) {
         empty.className =
             "empty-bookings";
 
+
         const symbol =
             document.createElement("div");
 
@@ -180,7 +199,8 @@ function renderBookings(bookings) {
         const link =
             document.createElement("a");
 
-        link.href = "booking.html";
+        link.href =
+            "booking.html";
 
         link.className =
             "dashboard-action primary";
@@ -196,7 +216,10 @@ function renderBookings(bookings) {
             link
         );
 
-        bookingsList.appendChild(empty);
+
+        bookingsList.appendChild(
+            empty
+        );
 
         return;
     }
@@ -260,15 +283,19 @@ function renderBookings(bookings) {
         const status =
             document.createElement("span");
 
+
         const bookingStatus =
             booking.status ||
             "Pending";
 
+
         const normalizedStatus =
             bookingStatus.toLowerCase();
 
+
         status.className =
             `booking-status ${normalizedStatus}`;
+
 
         status.textContent =
             bookingStatus;
@@ -290,6 +317,7 @@ function renderBookings(bookings) {
 
 
         details.append(
+
             createDetail(
                 "Name",
                 booking.name
@@ -307,8 +335,16 @@ function renderBookings(bookings) {
         );
 
 
+        /* ---------- CARD CONTENT ---------- */
+
         card.append(
+
             top,
+
+            createBookingTracker(
+                bookingStatus
+            ),
+
             details
         );
 
@@ -325,6 +361,7 @@ function renderBookings(bookings) {
 
 
             notes.appendChild(
+
                 createDetail(
                     "Notes",
                     booking.notes
@@ -332,13 +369,196 @@ function renderBookings(bookings) {
             );
 
 
-            card.appendChild(notes);
+            card.appendChild(
+                notes
+            );
         }
 
 
-        bookingsList.appendChild(card);
+        bookingsList.appendChild(
+            card
+        );
 
     });
+}
+
+
+/* =====================================================
+   CREATE BOOKING PROGRESS TRACKER
+   ===================================================== */
+
+function createBookingTracker(status) {
+
+    const tracker =
+        document.createElement("div");
+
+    tracker.className =
+        "booking-tracker";
+
+
+    /* ---------------- REJECTED ---------------- */
+
+    if (
+        String(status).toLowerCase() ===
+        "rejected"
+    ) {
+
+        const rejected =
+            document.createElement("div");
+
+
+        rejected.className =
+            "tracker-rejected";
+
+
+        rejected.textContent =
+            "✕  Booking Rejected";
+
+
+        tracker.appendChild(
+            rejected
+        );
+
+
+        return tracker;
+    }
+
+
+    /* ---------------- NORMAL TRACKER ---------------- */
+
+    const stages = [
+
+        "Booking Received",
+
+        "Confirmed",
+
+        "Artist Assigned",
+
+        "Service Completed"
+
+    ];
+
+
+    let currentStage = 0;
+
+
+    const normalizedStatus =
+        String(status).toLowerCase();
+
+
+    if (
+        normalizedStatus ===
+        "confirmed"
+    ) {
+
+        currentStage = 1;
+    }
+
+
+    stages.forEach(
+        (stage, index) => {
+
+            const step =
+                document.createElement("div");
+
+            step.className =
+                "tracker-step";
+
+
+            /* ---------- STEP STATE ---------- */
+
+            if (
+                index < currentStage
+            ) {
+
+                step.classList.add(
+                    "completed"
+                );
+
+            } else if (
+                index === currentStage
+            ) {
+
+                step.classList.add(
+                    "current"
+                );
+            }
+
+
+            /* ---------- CIRCLE ---------- */
+
+            const circle =
+                document.createElement("div");
+
+            circle.className =
+                "tracker-circle";
+
+
+            circle.textContent =
+                index < currentStage
+                    ? "✓"
+                    : index + 1;
+
+
+            /* ---------- LABEL ---------- */
+
+            const label =
+                document.createElement("span");
+
+            label.className =
+                "tracker-label";
+
+
+            label.textContent =
+                stage;
+
+
+            step.append(
+                circle,
+                label
+            );
+
+
+            tracker.appendChild(
+                step
+            );
+
+
+            /* ---------- CONNECTOR ---------- */
+
+            if (
+                index <
+                stages.length - 1
+            ) {
+
+                const connector =
+                    document.createElement("div");
+
+
+                connector.className =
+                    "tracker-line";
+
+
+                if (
+                    index < currentStage
+                ) {
+
+                    connector.classList.add(
+                        "completed"
+                    );
+                }
+
+
+                tracker.appendChild(
+                    connector
+                );
+            }
+
+        }
+    );
+
+
+    return tracker;
 }
 
 
@@ -361,6 +581,7 @@ function createDetail(label, value) {
     labelElement.className =
         "booking-detail-label";
 
+
     labelElement.textContent =
         label;
 
@@ -371,6 +592,7 @@ function createDetail(label, value) {
     valueElement.className =
         "booking-detail-value";
 
+
     valueElement.textContent =
         value || "—";
 
@@ -379,6 +601,7 @@ function createDetail(label, value) {
         labelElement,
         valueElement
     );
+
 
     return wrapper;
 }
@@ -391,6 +614,7 @@ function createDetail(label, value) {
 function formatDate(dateString) {
 
     if (!dateString) {
+
         return "Not specified";
     }
 
@@ -404,8 +628,10 @@ function formatDate(dateString) {
         const year =
             Number(parts[0]);
 
+
         const month =
             Number(parts[1]);
+
 
         const day =
             Number(parts[2]);
@@ -442,6 +668,7 @@ function showError(message) {
 
     dashboardError.textContent =
         message;
+
 
     dashboardError.classList.add(
         "show"

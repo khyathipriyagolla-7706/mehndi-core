@@ -21,6 +21,7 @@ if (!token) {
 // ========================================
 
 async function loadBookings() {
+
     try {
 
         const response = await fetch(
@@ -35,20 +36,30 @@ async function loadBookings() {
 
         const data = await response.json();
 
+
         // Token invalid or expired
         if (response.status === 401) {
+
             sessionStorage.removeItem("adminToken");
+
             window.location.href = "admin.html";
+
             return;
         }
 
+
+        // Server error
         if (!response.ok) {
+
             message.textContent =
                 data.message || "Failed to load bookings.";
+
             return;
         }
 
+
         const bookings = data.bookings;
+
 
         // ========================================
         // UPDATE STATISTICS
@@ -56,15 +67,21 @@ async function loadBookings() {
 
         totalBookings.textContent = bookings.length;
 
-        const pending = bookings.filter(
-            booking => booking.status === "Pending"
+
+        const bookingReceived = bookings.filter(
+            booking =>
+                booking.status === "Booking Received" ||
+                booking.status === "Pending"
         ).length;
+
 
         const confirmed = bookings.filter(
-            booking => booking.status === "Confirmed"
+            booking =>
+                booking.status === "Confirmed"
         ).length;
 
-        pendingBookings.textContent = pending;
+
+        pendingBookings.textContent = bookingReceived;
         confirmedBookings.textContent = confirmed;
 
 
@@ -78,6 +95,7 @@ async function loadBookings() {
                 "No booking requests yet.";
 
             message.style.display = "block";
+
             bookingsTable.style.display = "none";
 
             return;
@@ -99,6 +117,7 @@ async function loadBookings() {
 
             const row = document.createElement("tr");
 
+
             row.innerHTML = `
                 <td>${booking.name}</td>
 
@@ -113,16 +132,19 @@ async function loadBookings() {
                 <td>${booking.notes || "-"}</td>
 
                 <td>
+
                     <select
                         class="status-select"
                         data-id="${booking._id}"
                     >
+
                         <option
-                            value="Pending"
-                            ${booking.status === "Pending" ? "selected" : ""}
+                            value="Booking Received"
+                            ${booking.status === "Booking Received" ? "selected" : ""}
                         >
-                            Pending
+                            Booking Received
                         </option>
+
 
                         <option
                             value="Confirmed"
@@ -131,15 +153,49 @@ async function loadBookings() {
                             Confirmed
                         </option>
 
+
+                        <option
+                            value="Artist Assigned"
+                            ${booking.status === "Artist Assigned" ? "selected" : ""}
+                        >
+                            Artist Assigned
+                        </option>
+
+
+                        <option
+                            value="Service Completed"
+                            ${booking.status === "Service Completed" ? "selected" : ""}
+                        >
+                            Service Completed
+                        </option>
+
+
                         <option
                             value="Rejected"
                             ${booking.status === "Rejected" ? "selected" : ""}
                         >
                             Rejected
                         </option>
+
+
+                        ${
+                            booking.status === "Pending"
+                                ? `
+                                <option
+                                    value="Pending"
+                                    selected
+                                >
+                                    Pending (Legacy)
+                                </option>
+                                `
+                                : ""
+                        }
+
                     </select>
+
                 </td>
             `;
+
 
             bookingsBody.appendChild(row);
 
@@ -151,20 +207,28 @@ async function loadBookings() {
             const statusSelect =
                 row.querySelector(".status-select");
 
-            statusSelect.addEventListener("change", () => {
 
-                updateBookingStatus(
-                    statusSelect.dataset.id,
-                    statusSelect.value
-                );
+            statusSelect.addEventListener(
+                "change",
+                () => {
 
-            });
+                    updateBookingStatus(
+                        statusSelect.dataset.id,
+                        statusSelect.value
+                    );
+
+                }
+            );
 
         });
 
 
-        // Show table
+        // ========================================
+        // SHOW TABLE
+        // ========================================
+
         message.style.display = "none";
+
         bookingsTable.style.display = "table";
 
 
@@ -197,9 +261,12 @@ async function updateBookingStatus(
             `https://mehndi-core.onrender.com/api/admin/bookings/${bookingId}/status`,
             {
                 method: "PATCH",
+
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+
+                    "Authorization":
+                        `Bearer ${token}`
                 },
 
                 body: JSON.stringify({
@@ -212,18 +279,27 @@ async function updateBookingStatus(
         const data = await response.json();
 
 
-        // Token invalid or expired
+        // ========================================
+        // TOKEN INVALID
+        // ========================================
+
         if (response.status === 401) {
 
-            sessionStorage.removeItem("adminToken");
+            sessionStorage.removeItem(
+                "adminToken"
+            );
 
-            window.location.href = "admin.html";
+            window.location.href =
+                "admin.html";
 
             return;
         }
 
 
-        // Server error
+        // ========================================
+        // SERVER ERROR
+        // ========================================
+
         if (!response.ok) {
 
             alert(
@@ -241,8 +317,12 @@ async function updateBookingStatus(
         );
 
 
-        // Reload dashboard
+        // ========================================
+        // RELOAD DASHBOARD
+        // ========================================
+
         await loadBookings();
+
 
     } catch (error) {
 

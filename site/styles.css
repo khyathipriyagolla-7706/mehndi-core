@@ -473,3 +473,561 @@ footer{ background:var(--cream-deep); border-top:1px solid var(--line); padding:
   html{ scroll-behavior:auto; }
   *, *::before, *::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
 }
+/* ========================================
+   BEAUTIFUL PRICING SECTION
+======================================== */
+
+.pricing-section {
+    padding: 100px 20px;
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(169, 137, 90, 0.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(59, 74, 49, 0.07),
+            transparent 30%
+        ),
+        #f7f1e3;
+}
+
+
+.pricing-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+
+/* HEADING */
+
+.pricing-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 55px;
+}
+
+
+.pricing-eyebrow {
+    display: inline-block;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+    color: #a9895a;
+
+    margin-bottom: 14px;
+}
+
+
+.pricing-heading h2 {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: clamp(42px, 5vw, 62px);
+
+    line-height: 1.05;
+
+    color: #3b4a31;
+
+    margin-bottom: 18px;
+}
+
+
+.pricing-heading h2 span {
+    color: #a9895a;
+
+    font-style: italic;
+}
+
+
+.pricing-heading p {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    color: #777;
+
+    max-width: 600px;
+
+    margin: auto;
+}
+
+
+.pricing-divider {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    margin-top: 25px;
+}
+
+
+.pricing-divider span {
+    width: 70px;
+
+    height: 1px;
+
+    background: #cdbd9f;
+}
+
+
+.pricing-divider i {
+    font-size: 18px;
+
+    color: #a9895a;
+
+    font-style: normal;
+}
+
+
+/* GRID */
+
+.pricing-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    align-items: stretch;
+}
+
+
+/* CARD */
+
+.price-card {
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.72);
+
+    border: 1px solid rgba(169, 137, 90, 0.20);
+
+    border-radius: 22px;
+
+    padding: 38px 26px;
+
+    text-align: center;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+
+    box-shadow:
+        0 10px 30px rgba(59, 74, 49, 0.06);
+}
+
+
+.price-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    border-radius: 50%;
+
+    background: rgba(169, 137, 90, 0.07);
+
+    top: -65px;
+    right: -65px;
+}
+
+
+.price-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(169, 137, 90, 0.12);
+
+    bottom: -50px;
+    left: -50px;
+}
+
+
+.price-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 45px rgba(59, 74, 49, 0.13);
+
+    border-color: rgba(169, 137, 90, 0.45);
+}
+
+
+/* DECORATION */
+
+.card-decoration {
+    position: absolute;
+
+    top: 18px;
+    right: 22px;
+
+    color: #a9895a;
+
+    font-size: 14px;
+
+    opacity: 0.7;
+}
+
+
+.price-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #f0e7d3;
+
+    color: #3b4a31;
+
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 27px;
+
+    border: 1px solid rgba(169, 137, 90, 0.25);
+}
+
+
+.price-card h3 {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 30px;
+
+    color: #3b4a31;
+
+    margin-bottom: 10px;
+}
+
+
+.price-description {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    color: #777;
+
+    min-height: 66px;
+
+    margin-bottom: 25px;
+}
+
+
+/* PRICE */
+
+.price-label {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    color: #a9895a;
+
+    margin-bottom: 6px;
+}
+
+
+.price-value {
+    font-family: "Cormorant Garamond", serif;
+
+    font-size: 35px;
+
+    font-weight: 700;
+
+    color: #3b4a31;
+
+    white-space: nowrap;
+}
+
+
+.price-value span {
+    color: #a9895a;
+
+    padding: 0 3px;
+}
+
+
+.price-unit {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 11px;
+
+    color: #999;
+
+    margin-top: 3px;
+}
+
+
+.price-line {
+    width: 45px;
+
+    height: 1px;
+
+    background: #cdbd9f;
+
+    margin: 20px auto;
+}
+
+
+.price-note {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    color: #777;
+
+    margin: 0;
+}
+
+
+/* FEATURED BRIDAL */
+
+.featured-price {
+    background:
+        linear-gradient(
+            145deg,
+            #3b4a31,
+            #46583a
+        );
+
+    border: none;
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 20px 45px rgba(59, 74, 49, 0.20);
+}
+
+
+.featured-price:hover {
+    transform: translateY(-14px);
+
+    box-shadow:
+        0 28px 55px rgba(59, 74, 49, 0.25);
+}
+
+
+.featured-price h3,
+.featured-price .price-value {
+    color: #fff;
+}
+
+
+.featured-price .price-description,
+.featured-price .price-unit,
+.featured-price .price-note {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+
+.featured-price .price-icon {
+    background: rgba(255, 255, 255, 0.12);
+
+    color: #e5c98e;
+
+    border-color: rgba(229, 201, 142, 0.35);
+}
+
+
+.featured-price .price-label {
+    color: #e5c98e;
+}
+
+
+.featured-price .price-line {
+    background: rgba(229, 201, 142, 0.4);
+}
+
+
+.featured-price .card-decoration {
+    color: #e5c98e;
+}
+
+
+/* BADGE */
+
+.featured-badge {
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: #a9895a;
+
+    color: white;
+
+    padding: 7px 18px;
+
+    border-radius:
+        0 0 12px 12px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+
+    white-space: nowrap;
+}
+
+
+/* BOTTOM NOTE */
+
+.pricing-note {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    max-width: 800px;
+
+    margin: 40px auto 0;
+
+    padding: 16px 22px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.55);
+
+    border: 1px solid rgba(169, 137, 90, 0.15);
+}
+
+
+.pricing-note span {
+    color: #a9895a;
+
+    font-size: 18px;
+}
+
+
+.pricing-note p {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    color: #777;
+
+    margin: 0;
+
+    text-align: center;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 1000px) {
+
+    .pricing-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .pricing-section {
+        padding: 70px 16px;
+    }
+
+
+    .pricing-container {
+        width: 100%;
+    }
+
+
+    .pricing-heading {
+        margin-bottom: 40px;
+    }
+
+
+    .pricing-heading h2 {
+        font-size: 42px;
+    }
+
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+
+    .price-card {
+        padding: 35px 24px;
+    }
+
+
+    .featured-price {
+        transform: none;
+    }
+
+
+    .featured-price:hover {
+        transform: translateY(-6px);
+    }
+
+
+    .price-description {
+        min-height: auto;
+    }
+
+
+    .pricing-note {
+        align-items: flex-start;
+
+        padding: 15px;
+
+        margin-top: 25px;
+    }
+
+}
